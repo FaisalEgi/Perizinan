@@ -27,8 +27,7 @@ class AuthenticatedSessionController extends Controller
         // Ambil data login
         $credentials = $request->only('email', 'password');
 
-        // Gunakan remember me = true agar user tidak logout saat close browser
-        if (Auth::attempt($credentials, true)) {
+        if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
             $user = Auth::user();
@@ -58,8 +57,7 @@ class AuthenticatedSessionController extends Controller
     {
         Auth::guard('web')->logout();
 
-        // ❗ Jangan hapus seluruh session kecuali token keamanan
-        // agar remember me tetap aktif
+        $request->session()->invalidate();
         $request->session()->regenerateToken();
 
         return redirect()->route('login');
