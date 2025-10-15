@@ -114,4 +114,23 @@ class IzinController extends Controller
 
         return view('izin.cetak', compact('izin'));
     }
+
+    public function tolak(Request $request, $id)
+{
+    if (Auth::user()->role !== 'admin') {
+        abort(403, 'Unauthorized');
+    }
+
+    $request->validate([
+        'alasan_penolakan' => 'required|string|max:255',
+    ]);
+
+    $izin = Izin::findOrFail($id);
+    $izin->status = 'ditolak';
+    $izin->alasan_penolakan = $request->alasan_penolakan;
+    $izin->save();
+
+    return redirect()->route('admin.izin.index')->with('success', 'Izin berhasil ditolak dengan alasan.');
+}
+
 }

@@ -80,11 +80,13 @@
                                                    class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 transition">
                                                    <i class="fas fa-check mr-1"></i>Terima
                                                 </a>
-                                                <a href="{{ route('admin.izin.tolak', $item->id) }}" 
-                                                   onclick="return confirm('Tolak izin ini?')"
-                                                   class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition">
-                                                   <i class="fas fa-times mr-1"></i>Tolak
-                                                </a>
+
+                                                <!-- Tombol Tolak -->
+                                                <button 
+                                                    onclick="bukaModal({{ $item->id }})"
+                                                    class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition">
+                                                    <i class="fas fa-times mr-1"></i>Tolak
+                                                </button>
                                             </div>
                                         @else
                                             <span class="text-gray-400">-</span>
@@ -99,6 +101,34 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Tolak -->
+    <div id="modalTolak" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 class="text-lg font-semibold mb-4 text-red-600">Alasan Penolakan</h2>
+            <form id="formTolak" method="POST">
+                @csrf
+                <textarea name="alasan_penolakan" rows="4" class="w-full border rounded p-2" placeholder="Masukkan alasan penolakan..." required></textarea>
+                <div class="mt-4 flex justify-end gap-2">
+                    <button type="button" onclick="tutupModal()" class="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500">Batal</button>
+                    <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Kirim</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function bukaModal(id) {
+            const modal = document.getElementById('modalTolak');
+            const form = document.getElementById('formTolak');
+            form.action = `/admin/izin/${id}/tolak`;
+            modal.classList.remove('hidden');
+        }
+
+        function tutupModal() {
+            document.getElementById('modalTolak').classList.add('hidden');
+        }
+    </script>
 
 </body>
 </html>

@@ -23,6 +23,7 @@ class Izin extends Model
     'nama_penjemput',       
     'status_penjemput',
     'status',
+    'alasan_penolakan'
 ];
 
     // Relasi ke User

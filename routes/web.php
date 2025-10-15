@@ -6,7 +6,18 @@ use Illuminate\Support\Facades\Route;
 
 // Halaman awal: form login khusus perizinan santri
 Route::get('/', function () {
-    return view('auth.login_custom'); // nanti buat login_custom.blade.php
+    // Jika sudah login
+    if (Auth::check()) {
+        $user = Auth::user();
+        if ($user->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        } elseif (in_array($user->role, ['orangtua', 'user'])) {
+            return redirect()->route('user.dashboard');
+        }
+    }
+
+    // Jika belum login
+    return redirect()->route('login');
 })->name('home');
 
 // Route Orang Tua
@@ -32,9 +43,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/izin/{id}/terima', [IzinController::class, 'updateStatus'])
         ->defaults('status', 'diterima')
         ->name('admin.izin.terima');
-    Route::get('/admin/izin/{id}/tolak', [IzinController::class, 'updateStatus'])
-        ->defaults('status', 'ditolak')
-        ->name('admin.izin.tolak');
+   Route::post('/admin/izin/{id}/tolak', [IzinController::class, 'tolak'])
+    ->name('admin.izin.tolak');
+
 });
 
 // Semua route yang butuh login (misal profile)

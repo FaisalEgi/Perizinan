@@ -112,16 +112,25 @@
                         </span>
                       @endif
                     </td>
+
                     <td class="px-6 py-3 text-center">
                       @if($item->status === 'diterima')
                         <button onclick="cetakIzin({{ $item->id }})" 
-                               class="text-blue-600 hover:text-blue-800 transition duration-150 flex justify-center items-center gap-1">
+                                class="text-blue-600 hover:text-blue-800 transition duration-150 flex justify-center items-center gap-1">
                           <i class="fas fa-print"></i>
-                            <span>Cetak</span>
-                      </button>
-                        @else
-                          <span class="text-gray-400">-</span>
-                         @endif
+                          <span>Cetak</span>
+                        </button>
+
+                      @elseif($item->status === 'ditolak' && $item->alasan_penolakan)
+                        <button onclick="lihatAlasan(`{{ $item->alasan_penolakan }}`)" 
+                                class="text-red-600 hover:text-red-800 transition duration-150 flex justify-center items-center gap-1">
+                          <i class="fas fa-info-circle"></i>
+                          <span>Lihat Alasan</span>
+                        </button>
+
+                      @else
+                        <span class="text-gray-400">-</span>
+                      @endif
                     </td>
                   </tr>
                   @endforeach
@@ -134,33 +143,44 @@
       </div>
     </div>
   </div>
+
   <!-- Iframe tersembunyi untuk cetak -->
-<iframe id="frameCetak" style="display:none;"></iframe>
+  <iframe id="frameCetak" style="display:none;"></iframe>
 
-<script>
-function cetakIzin(id) {
-    // Ambil file cetak dari server
-    fetch(`/izin/${id}/cetak`)
-        .then(res => {
-            if (!res.ok) throw new Error("Gagal memuat halaman cetak");
-            return res.text();
-        })
-        .then(html => {
-            // Tulis ke dalam iframe
-            const frame = document.getElementById('frameCetak');
-            frame.contentDocument.open();
-            frame.contentDocument.write(html);
-            frame.contentDocument.close();
+  <script>
+  function cetakIzin(id) {
+      fetch(`/izin/${id}/cetak`)
+          .then(res => {
+              if (!res.ok) throw new Error("Gagal memuat halaman cetak");
+              return res.text();
+          })
+          .then(html => {
+              const frame = document.getElementById('frameCetak');
+              frame.contentDocument.open();
+              frame.contentDocument.write(html);
+              frame.contentDocument.close();
+              setTimeout(() => {
+                  frame.contentWindow.focus();
+                  frame.contentWindow.print();
+              }, 500);
+          })
+          .catch(err => alert(err.message));
+  }
 
-            // Tunggu sejenak sebelum print agar render selesai
-            setTimeout(() => {
-                frame.contentWindow.focus();
-                frame.contentWindow.print();
-            }, 500);
-        })
-        .catch(err => alert(err.message));
-}
-</script>
+  function lihatAlasan(alasan) {
+      const modal = document.createElement('div');
+      modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50';
+      modal.innerHTML = `
+        <div class="bg-white p-6 rounded-xl shadow-lg w-96 text-center animate-fadeIn">
+          <h2 class="text-lg font-semibold text-red-600 mb-3"><i class="fas fa-times-circle"></i> Alasan Penolakan</h2>
+          <p class="text-gray-700 mb-6">${alasan}</p>
+          <button onclick="this.parentElement.parentElement.remove()" 
+                  class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Tutup</button>
+        </div>
+      `;
+      document.body.appendChild(modal);
+  }
+  </script>
 
 </body>
 </html>
