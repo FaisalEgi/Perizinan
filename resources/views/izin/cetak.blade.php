@@ -17,6 +17,21 @@
             margin: 40px;
         }
 
+        .ttd img {
+        width: 200px;
+        height: auto;
+        margin-top: 5px;
+            }
+
+.img-ttd {
+    width: 220px;
+    height: auto;
+    margin: 10px 0;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
         .kop {
             text-align: center;
             border-bottom: 3px double #000;
@@ -192,20 +207,25 @@
         </div>
 
         <div class="ttd">
-            <table>
-                <tr>
-                    <td width="50%">
-                        Orang Tua / Wali Santri<br><br><br><br>
-                        ( ................................... )
-                    </td>
-                    <td width="50%">
-                        Singaparna, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}<br>
-                        Bagian Pengasuhan Santri<br><br><br><br>
-                        ( ................................... )
-                    </td>
-                </tr>
-            </table>
-        </div>
+    <table>
+        <tr>
+            <!-- KIRI -->
+            <td width="50%" style="text-align:center; vertical-align:top;">
+              <br>Orang Tua / Wali Santri<br><br><br><br><br>
+                ( ................................... )
+            </td>
+
+            <!-- KANAN -->
+            <td width="50%" style="text-align:center; vertical-align:top;">
+                Singaparna, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}<br>
+                Bagian Pengasuhan Santri
+
+                <img src="{{ asset('images/ttd.png') }}" alt="TTD" class="img-ttd">
+            </td>
+        </tr>
+    </table>
+</div>
+
 
         <div class="catatan">
             <strong>Catatan:</strong><br>

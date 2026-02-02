@@ -7,140 +7,184 @@
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         body {
-            background: linear-gradient(135deg, #007bff, #6dd5fa, #ffffff);
             min-height: 100vh;
+            background:
+                linear-gradient(rgba(0, 70, 140, 0.75), rgba(0, 70, 140, 0.75)),
+                url('/images/Al-Furqon.jpg') no-repeat center center / cover;
             display: flex;
             justify-content: center;
             align-items: center;
             font-family: 'Poppins', sans-serif;
-            margin: 0;
             padding: 20px;
         }
 
         .dashboard-card {
             width: 100%;
-            max-width: 680px;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            max-width: 820px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border-radius: 22px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
             overflow: hidden;
             animation: fadeIn 0.8s ease-in-out;
         }
 
         .card-header {
-            background: linear-gradient(135deg, #0066cc, #0099ff);
+            background: linear-gradient(135deg, #0d6efd, #198cff);
             color: #fff;
-            padding: 25px 20px;
+            padding: 30px 25px;
             text-align: center;
-            border-bottom: none;
         }
 
         .card-header h3 {
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 5px;
         }
 
+        .card-header span {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
         .card-body {
-            padding: 35px 25px;
+            padding: 40px 30px;
             text-align: center;
         }
 
-        .card-body p {
-            color: #555;
-        }
-
-        .btn-custom {
-            display: inline-block;
-            border: none;
-            border-radius: 10px;
-            padding: 12px 30px;
+        .welcome-text {
+            font-size: 18px;
             font-weight: 500;
-            font-size: 15px;
+        }
+
+        .welcome-text span {
+            font-weight: 600;
+            color: #0d6efd;
+        }
+
+        .desc-text {
+            color: #555;
+            margin-top: 10px;
+            margin-bottom: 35px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .menu-card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 25px 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
+            text-decoration: none;
+            color: #333;
         }
 
-        .btn-izin {
-            background: linear-gradient(135deg, #007bff, #00aaff);
-            color: #fff;
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
 
-        .btn-izin:hover {
-            background: linear-gradient(135deg, #0066cc, #0099e6);
-            transform: translateY(-2px);
+        .menu-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
         }
 
-        .btn-logout {
-            background: linear-gradient(135deg, #dc3545, #e85d6d);
-            color: #fff;
+        .icon-izin {
+            color: #0d6efd;
         }
 
-        .btn-logout:hover {
-            background: linear-gradient(135deg, #c82333, #d64554);
-            transform: translateY(-2px);
+        .icon-list {
+            color: #198754;
         }
 
-        .button-group {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
+        .icon-logout {
+            color: #dc3545;
+        }
+
+        .menu-card h5 {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .menu-card p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .footer-text {
+            text-align: center;
+            font-size: 13px;
+            color: #777;
+            margin-top: 35px;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(25px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
-    <div class="dashboard-card">
-        <div class="card-header">
-            <h3>Dashboard Orang Tua</h3>
-            <p class="mb-0 small text-light">Sistem Perizinan Santri</p>
-        </div>
+<div class="dashboard-card">
 
-        <div class="card-body">
-            <p class="fs-5 mb-3">Halo, <strong>{{ Auth::user()->name }}</strong> 👋</p>
-            <p class="text-secondary mb-4">
-                Selamat datang! Di sini Anda dapat <strong>mengajukan izin</strong> dan 
-                <strong>memantau status</strong> pengajuan secara online dengan mudah.
-            </p>
-
-            <div class="button-group mt-4">
-                <a href="{{ route('izin.create') }}" class="btn-custom btn-izin">Ajukan Izin</a>
-                <a href="{{ route('izin.index') }}" class="btn-custom btn-izin">Lihat Daftar Izin</a>
-                <a href="#" 
-                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                   class="btn-custom btn-logout">
-                    Logout
-                </a>
-            </div>
-
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                @csrf
-            </form>
-        </div>
+    <div class="card-header">
+        <h3>Dashboard Orang Tua</h3>
+        <span>Pesantren Muhammadiyah Al-Furqon Tasikmalaya</span>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="card-body">
+        <div class="welcome-text">
+            Assalamu’alaikum, <span>{{ Auth::user()->name }}</span> 👋
+        </div>
 
-    <script>
-        // Setelah logout, redirect ke halaman login_custom
-        const form = document.getElementById('logout-form');
-        form.addEventListener('submit', function() {
-            setTimeout(() => {
-                window.location.href = "{{ route('login') }}"; // arahkan ke login_custom
-            }, 500);
-        });
-    </script>
+        <div class="desc-text">
+            Melalui sistem ini, Anda dapat <strong>mengajukan izin santri</strong>  
+            dan <strong>memantau status izin</strong> secara cepat dan transparan.
+        </div>
+
+        <div class="menu-grid">
+            <a href="{{ route('izin.create') }}" class="menu-card">
+                <div class="menu-icon icon-izin">📝</div>
+                <h5>Ajukan Izin</h5>
+                <p>Ajukan izin santri secara online dengan mudah.</p>
+            </a>
+
+            <a href="{{ route('izin.index') }}" class="menu-card">
+                <div class="menu-icon icon-list">📋</div>
+                <h5>Daftar Izin</h5>
+                <p>Lihat status izin: pending, diterima, ditolak, atau selesai.</p>
+            </a>
+
+            <a href="#" class="menu-card"
+               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <div class="menu-icon icon-logout">🚪</div>
+                <h5>Logout</h5>
+                <p>Keluar dari sistem perizinan santri.</p>
+            </a>
+        </div>
+
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+        </form>
+
+        <div class="footer-text">
+            © {{ date('Y') }} Pesantren Muhammadiyah Al-Furqon Tasikmalaya
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

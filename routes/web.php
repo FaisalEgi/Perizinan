@@ -46,6 +46,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
    Route::post('/admin/izin/{id}/tolak', [IzinController::class, 'tolak'])
     ->name('admin.izin.tolak');
 
+    // Tandai izin sebagai selesai
+Route::get('/admin/izin/{id}/selesai', [IzinController::class, 'updateStatus'])
+    ->defaults('status', 'selesai')
+    ->name('admin.izin.selesai');
+
 });
 
 // Semua route yang butuh login (misal profile)

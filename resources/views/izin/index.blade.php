@@ -72,31 +72,33 @@
             <div class="overflow-x-auto">
               <table class="min-w-full text-sm">
                 <thead class="bg-blue-50 border-b border-blue-200">
+                  
                   <tr>
-                    <th class="px-6 py-3 text-left font-semibold text-blue-700 uppercase tracking-wider">Nama Santri</th>
-                    <th class="px-6 py-3 text-left font-semibold text-blue-700 uppercase tracking-wider">Kelas</th>
-                    <th class="px-6 py-3 text-left font-semibold text-blue-700 uppercase tracking-wider">Alamat Tujuan</th>
-                    <th class="px-6 py-3 text-left font-semibold text-blue-700 uppercase tracking-wider">Nama Penjemput</th>
-                    <th class="px-6 py-3 text-left font-semibold text-blue-700 uppercase tracking-wider">Status Penjemput</th>
-                    <th class="px-6 py-3 text-left font-semibold text-blue-700 uppercase tracking-wider">Alasan</th>
-                    <th class="px-6 py-3 text-left font-semibold text-blue-700 uppercase tracking-wider">Tanggal Mulai</th>
-                    <th class="px-6 py-3 text-left font-semibold text-blue-700 uppercase tracking-wider">Tanggal Selesai</th>
-                    <th class="px-6 py-3 text-left font-semibold text-blue-700 uppercase tracking-wider">Status</th>
-                    <th class="px-6 py-3 text-center font-semibold text-blue-700 uppercase tracking-wider">Aksi</th>
+                    <th class="px-4 py-2 text-left font-semibold text-blue-800 uppercase tracking-wider">Nama Santri</th>
+                    <th class="px-4 py-2 text-left font-semibold text-blue-800 uppercase tracking-wider">Kelas</th>
+                    <th class="px-4 py-2 text-left font-semibold text-blue-800 uppercase tracking-wider">Alamat Tujuan</th>
+                    <th class="px-4 py-2 text-left font-semibold text-blue-800 uppercase tracking-wider">Nama Penjemput</th>
+                    <th class="px-4 py-2 text-left font-semibold text-blue-800 uppercase tracking-wider">Status Penjemput</th>
+                    <th class="px-4 py-2 text-left font-semibold text-blue-800 uppercase tracking-wider">Alasan</th>
+                    <th class="px-4 py-2 text-left font-semibold text-blue-800 uppercase tracking-wider">Tanggal Mulai</th>
+                    <th class="px-4 py-2 text-left font-semibold text-blue-800 uppercase tracking-wider">Tanggal Selesai</th>
+                    <th class="px-4 py-2 text-left font-semibold text-blue-800 uppercase tracking-wider">Status</th>
+                    <th class="px-4 py-2 text-center font-semibold text-blue-800 uppercase tracking-wider">Aksi</th>
                   </tr>
                 </thead>
 
                 <tbody>
                   @foreach($izin as $item)
                   <tr class="shadow-sm hover:shadow-md transition duration-150">
-                    <td class="px-6 py-3 font-medium text-gray-800">{{ $item->nama_santri }}</td>
-                    <td class="px-6 py-3 text-gray-800">{{ $item->kelas }}</td>
-                    <td class="px-6 py-3 text-gray-800">{{ $item->alamat_tujuan }}</td>
-                    <td class="px-6 py-3 text-gray-800">{{ $item->nama_penjemput }}</td>
-                    <td class="px-6 py-3 text-gray-800">{{ $item->status_penjemput }}</td>
-                    <td class="px-6 py-3 text-gray-800">{{ $item->alasan }}</td>
-                    <td class="px-6 py-3 text-gray-600">{{ \Carbon\Carbon::parse($item->tanggal_mulai)->format('d M Y') }}</td>
-                    <td class="px-6 py-3 text-gray-600">{{ \Carbon\Carbon::parse($item->tanggal_selesai)->format('d M Y') }}</td>
+                    <td class="px-4 py-2 font-medium text-gray-800">{{ $item->nama_santri }}</td>
+                    <td class="px-4 py-2 text-gray-800">{{ $item->kelas }}</td>
+                    <td class="px-4 py-2 text-gray-800">{{ $item->alamat_tujuan }}</td>
+                    <td class="px-4 py-2 text-gray-800">{{ $item->nama_penjemput }}</td>
+                    <td class="px-4 py-2 text-gray-800">{{ $item->status_penjemput }}</td>
+                    <td class="px-4 py-2 text-gray-800">{{ $item->alasan }}</td>
+                    <td class="px-4 py-2 text-gray-600">{{ \Carbon\Carbon::parse($item->tanggal_mulai)->format('d M Y') }}</td>
+                    <td class="px-4 py-2 text-gray-600">{{ \Carbon\Carbon::parse($item->tanggal_selesai)->format('d M Y') }}</td>
+                    
                     <td class="px-6 py-3">
                       @if($item->status === 'pending')
                         <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800">
@@ -104,9 +106,16 @@
                         </span>
                       @elseif($item->status === 'diterima')
                         <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
-                          <i class="fas fa-check mr-1"></i> Diterima
+                          <i class="fas fa-check mr-1"></i> Sedang Izin
                         </span>
-                      @else
+                      @elseif($item->status === 'selesai')
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">
+                          <i class="fas fa-flag-checkered mr-1"></i> Izin Selesai
+                        </span>
+                        @if($item->keterangan_keterlambatan)
+                          <div class="text-xs text-gray-600 mt-1">{{ $item->keterangan_keterlambatan }}</div>
+                        @endif
+                      @elseif($item->status === 'ditolak')
                         <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">
                           <i class="fas fa-times mr-1"></i> Ditolak
                         </span>
@@ -126,6 +135,13 @@
                                 class="text-red-600 hover:text-red-800 transition duration-150 flex justify-center items-center gap-1">
                           <i class="fas fa-info-circle"></i>
                           <span>Lihat Alasan</span>
+                        </button>
+
+                      @elseif($item->status === 'selesai' && $item->keterangan_keterlambatan)
+                        <button onclick="lihatAlasan(`{{ $item->keterangan_keterlambatan }}`)" 
+                                class="text-blue-600 hover:text-blue-800 transition duration-150 flex justify-center items-center gap-1">
+                          <i class="fas fa-info-circle"></i>
+                          <span>Lihat Keterangan</span>
                         </button>
 
                       @else
@@ -172,7 +188,7 @@
       modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50';
       modal.innerHTML = `
         <div class="bg-white p-6 rounded-xl shadow-lg w-96 text-center animate-fadeIn">
-          <h2 class="text-lg font-semibold text-red-600 mb-3"><i class="fas fa-times-circle"></i> Alasan Penolakan</h2>
+          <h2 class="text-lg font-semibold text-blue-600 mb-3"><i class="fas fa-info-circle"></i> Keterangan</h2>
           <p class="text-gray-700 mb-6">${alasan}</p>
           <button onclick="this.parentElement.parentElement.remove()" 
                   class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Tutup</button>
@@ -181,6 +197,5 @@
       document.body.appendChild(modal);
   }
   </script>
-
 </body>
 </html>
