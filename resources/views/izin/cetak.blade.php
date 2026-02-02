@@ -220,7 +220,7 @@
                 Singaparna, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}<br>
                 Bagian Pengasuhan Santri
 
-                <img src="{{ asset('images/ttd.png') }}" alt="TTD" class="img-ttd">
+                <img src="{{ asset('images/Ttd.png') }}" alt="TTD" class="img-ttd">
             </td>
         </tr>
     </table>
